@@ -52,42 +52,7 @@ void LevelEntityManager::Update(KeyState pKeyState)
 			mPlayerVec.at(j).SetHealth(100);
 			mPlayerVec.at(j).SetPosition(mSpawnPoints[mPlayerVec.at(j).GetTeam()]);
         }
-
-		CheckBulletColisions(mPlayerVec[j]);
     }
-}
-
-void LevelEntityManager::CheckBulletColisions(Character& player)
-{
-	for (unsigned int i = 0; i < player.GetProjectiles().size(); i++)
-	{
-		sf::Vector2f NewBulletPos = GetBulletNewPosition(player.GetProjectile(i));
-		sf::Vector2f NewBulletSpritePos = sf::Vector2f(NewBulletPos.x - player.GetProjectile(i).GetSprite().getOrigin().x, NewBulletPos.y - player.GetProjectile(i).GetSprite().getOrigin().y);
-
-		//Bullet to tile colisions
-		if (CheckTileSolidColision(FunctionLib::GenerateBoxFromDimentions(NewBulletSpritePos.x, NewBulletSpritePos.y, static_cast<float>(player.GetProjectile(i).GetTexture().getSize().x), static_cast<float>(player.GetProjectile(i).GetTexture().getSize().y))))
-		{
-			player.RemoveProjectile(i);
-			i -= 1;									 //what was the nth element is now the (n - 1)th element because all other elements were shifted down when the one was removed
-		}
-
-		//bullet to player colisions
-		for (unsigned int k = 0; k < mPlayerVec.size(); k++)
-		{
-			if (mPlayerVec[k].GetTeam() != player.GetTeam())
-			{
-				if (NewBulletPos.x > (mPlayerVec[k].GetPosition().x - mPlayerVec[k].GetSprite().getTexture()->getSize().x / 2) && NewBulletPos.x < (mPlayerVec[k].GetPosition().x + mPlayerVec.at(k).GetTexture().getSize().x / 2))    //Lines up x-wise
-				{
-					if (NewBulletPos.y >(mPlayerVec[k].GetPosition().y - mPlayerVec[k].GetSprite().getTexture()->getSize().y / 2) && NewBulletPos.y < (mPlayerVec[k].GetPosition().y + mPlayerVec.at(k).GetTexture().getSize().x / 2))   //lines up y-wise
-					{   //Colision :D
-						mPlayerVec[k].SetHealth(mPlayerVec[k].GetHealth() - player.GetProjectile(i).GetDamage());
-						player.RemoveProjectile(i);
-						i -= 1;						//what was the nth element is now the (n - 1)th element because all other elements were shifted down when the one was removed, hence i -= 1 to correct this.
-					}
-				}
-			}
-		}
-	}
 }
 
 sf::Vector2f LevelEntityManager::GetPlayerNewPosition(Character& pPlayer, KeyState pKeyState)
@@ -104,16 +69,6 @@ sf::Vector2f LevelEntityManager::GetPlayerNewPosition(Character& pPlayer, KeySta
         NewPlayerPos.x += pPlayer.GetSpeed() * mFrameTime;
 
     return NewPlayerPos;
-}
-
-sf::Vector2f LevelEntityManager::GetBulletNewPosition(Projectile& pProjectile)
-{
-    sf::Vector2f NewBulletPos(pProjectile.GetPosition().x, pProjectile.GetPosition().x);
-
-    NewBulletPos.x += pProjectile.GetVelocity().x * mFrameTime;
-    NewBulletPos.y += pProjectile.GetVelocity().y * mFrameTime;
-
-    return NewBulletPos;
 }
 
 void LevelEntityManager::Render()

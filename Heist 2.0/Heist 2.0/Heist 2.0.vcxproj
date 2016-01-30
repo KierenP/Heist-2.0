@@ -168,7 +168,6 @@
     <ClInclude Include="FunctionLib.h" />
     <ClInclude Include="LevelEntityManager.h" />
     <ClInclude Include="PlayerStats.h" />
-    <ClInclude Include="Projectile.h" />
     <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="TileEngine.h" />
     <ClInclude Include="WeaponStats.h" />

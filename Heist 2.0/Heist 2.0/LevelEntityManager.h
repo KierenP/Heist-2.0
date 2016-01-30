@@ -30,16 +30,14 @@ public:
     void SetSpawnPoint(unsigned int index, sf::Vector2f point);
 	Character GetPlayer(unsigned int index) { return mPlayerVec[index]; }
 	sf::Vector2f GetSpawnPoint(unsigned int index) { return mSpawnPoints[index]; }
-	bool CheckTileSolidColision(std::vector<sf::Vector2f> cornerPoints) const;
 
+	bool CheckTileSolidColision(std::vector<sf::Vector2f> cornerPoints) const;
 	void GenerateDustTestLevel();
 
 private:
     sf::Vector2f GetPlayerNewPosition(Character& Player, KeyState moveDirection);
-    sf::Vector2f GetBulletNewPosition(Projectile& projectile);
 	sf::Vector2f GenerateAiDirection(Character* pCharacter, KeyState moveDirection);
     KeyState AiMoveDecide(Character* pCharacter);
-	void CheckBulletColisions(Character& player);
 	void InitialiseTiles(std::vector<std::vector<Tile> >& vec, unsigned int TargetTileX, unsigned int TargetTileY);
 	void CheckNeibours(std::vector<Tile>& OpenList, std::vector<std::vector<Tile> >& Tiles, unsigned int LowestF);	//Will generate the neibours of a given tile at location (x, y) in Tiles, and add them to OpenList
 	bool CalculatePath(std::vector<std::vector<Tile> >& Tiles, unsigned int TargetTileX, unsigned int TargetTileY, unsigned int StartTileX, unsigned int StartTileY);
