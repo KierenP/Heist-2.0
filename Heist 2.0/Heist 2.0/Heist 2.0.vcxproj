@@ -153,7 +153,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="DynamicEntity.cpp" />
     <ClCompile Include="FunctionLib.cpp" />
     <ClCompile Include="LevelEntityManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,7 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
-    <ClInclude Include="DynamicEntity.h" />
     <ClInclude Include="FunctionLib.h" />
     <ClInclude Include="LevelEntityManager.h" />
     <ClInclude Include="PlayerStats.h" />
