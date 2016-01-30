@@ -30,8 +30,9 @@ void Character::RemoveProjectile(unsigned int index)
 void Character::UpdateSprite()
 {
 	mSprite.setTexture(mTexture);
-    mSprite.setPosition(mPosition.x, mPosition.x);
-    mSprite.setRotation(mDirection + 90);			//Todo: take away the +90, and re orientent sprites in paint
+    mSprite.setPosition(mPosition.x, mPosition.y);
+    mSprite.setRotation(mDirection - 90);			//Todo: take away the -90, and re orientent sprites in paint
+	mSprite.setOrigin(mTexture.getSize().x / 2, mTexture.getSize().y / 2);
 }
 
 void Character::UpdateProjectiles(float timeStep)
@@ -49,7 +50,7 @@ void Character::Update(float timeStep, KeyState val, bool willCollide)
 
     UpdateSprite();
 
-    if (val.LMBPressed && mWeaponCoolDownClock.getElapsedTime().asMilliseconds() > mWeapon.mFireRate)
+    if (val.LMBPressed)// && mWeaponCoolDownClock.getElapsedTime().asMilliseconds() > mWeapon.mFireRate)
     {
         GenerateProjectile();
 		mWeaponCoolDownClock.restart();

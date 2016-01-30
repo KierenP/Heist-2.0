@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Character" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAEAIARQAAEAUAAAAAEAEAAAAAAABAAACAAKAE=</HashCode>
+      <FileName>Character.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DynamicEntity" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAEAAAAAAAAAAAAAAAAAAACAEAAAFgAAAQAAAA=</HashCode>
+      <FileName>DynamicEntity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LevelEntityManager" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUFACQAACCAAEIEIAEIAAAAAsKAAAAAMBwBAAAhAFI=</HashCode>
+      <FileName>LevelEntityManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerData" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQAiAAAAAAhQAAQAMQQBAAAAEAAAAAAAAAAiAAACA=</HashCode>
+      <FileName>PlayerStats.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StaticEntity" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgADACAZEABAQAAAAAAAACAAQgAAQgCAAAAAAgA=</HashCode>
+      <FileName>StaticEntity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileEngine" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUYIAAAOAIAgAKQABAEQAAQBgDIAAiAAARJQAAgAcAA=</HashCode>
+      <FileName>TileEngine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="KeyState" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAEAAAAAAAAAAAAACAAAQQA=</HashCode>
+      <FileName>Character.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Tile" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAQAAAAgAAAAAYQABgAACAAAA=</HashCode>
+      <FileName>TileEngine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WeaponStats" Collapsed="true">
+    <Position X="6" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAKABAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WeaponStats.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="WeaponTypes" Collapsed="true">
+    <Position X="6" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WeaponStats.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
