@@ -85,7 +85,7 @@ bool LevelEntityManager::CheckTileSolidColision(std::vector<sf::Vector2f> Corner
 {
     for (unsigned int i = 0; i < CornerPoints.size(); i++)
     {
-        if (mTileEngine.CheckSolid(CornerPoints.at(i).x, CornerPoints.at(i).y))
+        if (mTileEngine.CheckSolid(CornerPoints.at(i)))
             return true;
     }
 
@@ -101,7 +101,7 @@ sf::Vector2f LevelEntityManager::GenerateAiDirection(Character* pCharacter, KeyS
 	{
 		if (pCharacter->GetTeam() != mPlayerVec.at(i).GetTeam())
 		{
-			if (!(mTileEngine.CheckLineSolidColision(pCharacter->GetPosition().x, pCharacter->GetPosition().y, mPlayerVec.at(i).GetPosition().x, mPlayerVec.at(i).GetPosition().y)))
+			if (!(mTileEngine.CheckLineSolidColision(pCharacter->GetPosition(), mPlayerVec.at(i).GetPosition())))
 			{
 				CharactersInSight.push_back(&mPlayerVec[i]);
 				Distance.push_back(FunctionLib::DistanceBetween(pCharacter->GetPosition().x, pCharacter->GetPosition().y, mPlayerVec.at(i).GetPosition().x, mPlayerVec.at(i).GetPosition().y));
@@ -199,14 +199,14 @@ KeyState LevelEntityManager::AiMoveDecide(Character* pCharacter)
 			float TargetX = mPlayerVec[iPlayer].GetPosition().x;
 			float TargetY = mPlayerVec[iPlayer].GetPosition().y;
 
-			unsigned int TargetTileX = int((TargetX - mTileEngine.GetPosX()) / mTileEngine.GetTileWidth());
-			unsigned int TargetTileY = int((TargetY - mTileEngine.GetPosY()) / mTileEngine.GetTileHeight());
+			unsigned int TargetTileX = int((TargetX) / mTileEngine.GetTileSize().x);
+			unsigned int TargetTileY = int((TargetY) / mTileEngine.GetTileSize().y);
 
 			float StartX = pCharacter->GetPosition().x;
 			float StartY = pCharacter->GetPosition().y;
 
-			unsigned int StartTileX = int((StartX - mTileEngine.GetPosX()) / mTileEngine.GetTileWidth());
-			unsigned int StartTileY = int((StartY - mTileEngine.GetPosY()) / mTileEngine.GetTileHeight());
+			unsigned int StartTileX = int((StartX) / mTileEngine.GetTileSize().x);
+			unsigned int StartTileY = int((StartY) / mTileEngine.GetTileSize().y);
 
 			InitialiseTiles(Tiles, TargetTileX, TargetTileY);
 
@@ -237,7 +237,7 @@ bool LevelEntityManager::CalculatePath(std::vector<std::vector<Tile> >& Tiles, u
 
 	OpenList.push_back(Tiles[StartTileY][StartTileX]);  //Add starting tile to open
 
-	for (unsigned int iterationCount = 0; iterationCount < mTileEngine.GetMapSizeX() * mTileEngine.GetMapSizeY(); iterationCount++)
+	for (unsigned int iterationCount = 0; iterationCount < mTileEngine.GetMapSize().x * mTileEngine.GetMapSize().y; iterationCount++)
 	{
 		unsigned LowestF = 0;   //LowestF is the position in the array OpenList of the tile with the lowest F value
 
@@ -282,7 +282,7 @@ bool LevelEntityManager::GenerateLMBState(Character* pCharacter)
 	{
 		if (pCharacter->GetTeam() != mPlayerVec.at(i).GetTeam())  //if the guy is not on the same team
 		{
-			if (!(mTileEngine.CheckLineSolidColision(pCharacter->GetPosition().x, pCharacter->GetPosition().y, mPlayerVec.at(i).GetPosition().x, mPlayerVec.at(i).GetPosition().y)))
+			if (!(mTileEngine.CheckLineSolidColision(pCharacter->GetPosition(), mPlayerVec.at(i).GetPosition())))
 			{
 				return true;
 			}
@@ -308,7 +308,7 @@ void LevelEntityManager::AllignKeyStateToGrid(KeyState& MoveDirection, unsigned 
 
 	if (AllignVertical)
 	{
-		float TargetY = (StartTileY + 0.5f) * mTileEngine.GetTileHeight();
+		float TargetY = (StartTileY + 0.5f) * mTileEngine.GetTileSize().x;
 
 		if (StartY < TargetY - 4)
 			MoveDirection.DownPressed = true;
@@ -318,7 +318,7 @@ void LevelEntityManager::AllignKeyStateToGrid(KeyState& MoveDirection, unsigned 
 
 	if (AllignHorisontal)
 	{
-		float TargetX = (StartTileX + 0.5f) * mTileEngine.GetTileWidth();
+		float TargetX = (StartTileX + 0.5f) * mTileEngine.GetTileSize().y;
 
 		if (StartX < TargetX - 4)
 			MoveDirection.RightPressed = true;
@@ -393,17 +393,13 @@ void LevelEntityManager::SetSpawnPoint(unsigned int index, sf::Vector2f point)
 
 void LevelEntityManager::GenerateDustTestLevel()
 {
-	unsigned int pTileWidth = 32; 
-	unsigned int pTileHeight = 32; 
-	unsigned int pMapSizeX = 30;
-	unsigned int pMapSizeY = 30; 
-	sf::Texture pTileSet;
-	float pPosX = 0;
-	float pPosY = 0;
+	sf::Vector2f TileSize(32, 32); 
+	sf::Vector2u MapSize(30, 30);
+	sf::Texture TileSet;
 
-	pTileSet.loadFromFile("DustTileSet.png");
+	TileSet.loadFromFile("DustTileSet.png");
 
-	std::vector<std::vector<int> > pTileIDVec = 
+	std::vector<std::vector<int> > tileID = 
 	{
 		{ 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76 },
 		{ 76, 35, 35, 35, 35, 35, 35, 35, 76, 62, 63, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 62, 63, 76 },
@@ -437,7 +433,7 @@ void LevelEntityManager::GenerateDustTestLevel()
 		{ 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76 }
 	};
 
-	std::vector<std::vector<bool> > pTileSolidState = 
+	std::vector<std::vector<bool> > solidLayer = 
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
@@ -471,13 +467,13 @@ void LevelEntityManager::GenerateDustTestLevel()
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < MapSize.y; i++)
 	{
-		for (int j = 0; j < 30; j++)
+		for (int j = 0; j < MapSize.y; j++)
 		{
-			pTileIDVec[i][j]--;
+			tileID[i][j]--;	//minus one from the whole vector
 		}
 	}
 
-	mTileEngine.LoadFromParam(pTileWidth, pTileHeight, pMapSizeX, pMapSizeY, pTileSet, pTileIDVec, pTileSolidState, pPosX, pPosY);
+	mTileEngine.LoadFromParam(TileSize, MapSize, TileSet, tileID, solidLayer);
 }

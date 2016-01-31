@@ -9,11 +9,11 @@ struct Tile
 {
     sf::Sprite mTileSprite;
     bool mSolidState;
+	unsigned int x;
+	unsigned int y;
     float g;	//everything here and below is for A*
     float h;
     float f;
-    unsigned int x;			
-	unsigned int y;
     bool Closed;
     Tile* Parent;
 };
@@ -21,48 +21,40 @@ struct Tile
 class TileEngine
 {
 public:
-    TileEngine();                               
+	TileEngine();
     TileEngine(std::string pFileLocation);      //Generate from a file
-	TileEngine(unsigned int pTileWidth, unsigned int pTileHeight, unsigned int pMapSizeX, unsigned int pMapSizeY, sf::Texture pTileSet, std::vector<std::vector<int> >& pTileIDVec, std::vector<std::vector<bool> >& pSolidStateVec, float pPosX = 0, float pPosY = 0);   //Generate from paramiters
-	TileEngine(unsigned int pTileWidth, unsigned int pTileHeight, unsigned int pMapSizeX, unsigned int pMapSizeY, sf::Texture pTileSet, std::vector<std::vector<Tile> > pTiles, float pPosX = 0, float pPosY = 0);    //Generate from already generated Tile vector
+	TileEngine(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<int> >& tileID, std::vector<std::vector<bool> >& solidLayer);   //Generate from paramiters
+	TileEngine(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<Tile> > tiles);												//Generate from already generated Tile vector
     ~TileEngine();
 
     //Getters
-    float GetPosX() { return mPosX; }
-    float GetPosY() { return mPosY; }
-    unsigned int GetTileWidth() { return mTileWidth; }
-	unsigned int GetTileHeight() { return mTileHeight; }
-    unsigned int GetMapSizeX() { return mMapSizeX; }
-	unsigned int GetMapSizeY() { return mMapSizeY; }
+	sf::Vector2f GetTileSize() { return mTileSize; }
+	sf::Vector2u GetMapSize() { return mMapSize; }
     std::vector<std::vector<Tile> > GetTiles() { return mTileVec; }
 	sf::Texture GetTexture() { return mTileSet; }
 
     //Setters
-    void SetPosX(float pPosX) { mPosX = pPosX; }
-    void SetPosY(float pPosY) { mPosY = pPosY; }
-	void SetTileWidth(unsigned int val) { mTileWidth = val; }
-	void SetTileHeight(unsigned int val) { mTileHeight = val; }
-	void SetMapSizeX(unsigned int val) { mMapSizeX = val; }
-	void SetMapSizeY(unsigned int val) { mMapSizeY = val; }
+	void SetTileSize(sf::Vector2f val) { mTileSize = val; }
+	void SetMapSize(sf::Vector2u val) { mMapSize = val; }
     void SetTiles(std::vector<std::vector<Tile> > pTiles) { mTileVec = pTiles; }
 	void SetTexture(sf::Texture val) { mTileSet = val; }
 
     //Public member functions
-    void LoadFromFile(std::string pFileLocation);
-	void LoadFromParam(unsigned int tileWidth, unsigned int tileHeight, unsigned int mapSizeX, unsigned int mapSizeY, sf::Texture tileSet, std::vector<std::vector<int> >& tileIntVec, std::vector<std::vector<bool> >& tileBoolVec, float posX = 0, float posY = 0);
-	void LoadFromTiles(unsigned int tileWidth, unsigned int tileHeight, unsigned int mapSizeX, unsigned int mapSizeY, sf::Texture tileSet, std::vector<std::vector<Tile> >& tiles, float posX = 0, float posY = 0);
+	void LoadFromFile(std::string pFileLocation);
+	void LoadFromParam(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<int> >& tileID, std::vector<std::vector<bool> >& solidLayer);
+	void LoadFromTiles(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<Tile> > tiles);
+
     void Render(sf::RenderWindow* pTarget);
-    bool CheckSolid(float px, float py) const;
-    bool CheckLineSolidColision(float x1, float y1, float x2, float y2);
-	Tile GetTile(unsigned int x, unsigned int y) { return mTileVec[y][x]; }
+    bool CheckSolid(sf::Vector2f position) const;
+    bool CheckLineSolidColision(sf::Vector2f point1, sf::Vector2f point2);
+	Tile GetTile(sf::Vector2u position) { return mTileVec[position.y][position.x]; }
 
 private:
     void UpdateTileSpritePos();
 
     //Private member variables
-    float mPosX, mPosY;							//Position x and y
-	unsigned int mTileWidth, mTileHeight;      //Tile width and height in pixles
-    unsigned int mMapSizeX, mMapSizeY;			//Map size, in tiles
+	sf::Vector2f mTileSize;					//Tile width and height in pixles
+	sf::Vector2u mMapSize;					//Map size, in tiles
     sf::Texture mTileSet;
     std::vector<std::vector<Tile> > mTileVec;
 };

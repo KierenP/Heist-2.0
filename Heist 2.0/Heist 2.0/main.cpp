@@ -50,7 +50,7 @@ void GenerateTestLevel()
 
 	MyPlayerVec.push_back(MyPlayer);
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		Character MyPlayer2(sf::Vector2f(64, 64), 0, MyTexture, PlayerData(150, -1, 1, GetWeaponStat(SMGWeapon), false));
 		MyPlayerVec.push_back(MyPlayer2);

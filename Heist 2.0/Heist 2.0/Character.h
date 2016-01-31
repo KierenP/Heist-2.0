@@ -1,9 +1,7 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 
 #include "StaticEntity.h"
 #include "PlayerStats.h"
-#include <SFML/Graphics.hpp>
 
 struct KeyState{		//possibly irrelivent, if key states are needed, sf::Keyboard::IsKeyPressed:: (or somthing of the like) can be used on demand
     bool UpPressed;
@@ -23,7 +21,7 @@ public:
     sf::Clock GetWeaponClock() { return mWeaponCoolDownClock; }	
     void SetWeaponClock(sf::Clock val) { mWeaponCoolDownClock = val; }				//same again
 
-    void Render(sf::RenderWindow& renderTarget);									//Draw the player sprite and its mProjectiles
+    void Render(sf::RenderWindow& renderTarget);									//possibly redundant due to StaticEntity::RenderSprite()
     void Update(float deltaTime, KeyState moveDirection, bool willCollide);			//Update the players mSprite and position, as well as the mProjectiles
 
 private:
@@ -33,4 +31,3 @@ private:
     sf::Clock mWeaponCoolDownClock;
 };
 
-#endif // CHARACTER_H

@@ -7,7 +7,6 @@ Character::~Character()
 
 void Character::Render(sf::RenderWindow& pTarget)
 {
-	mSprite.setTexture(mTexture);	//This *should* not be nessisary, but is.
     pTarget.draw(mSprite);
 }
 

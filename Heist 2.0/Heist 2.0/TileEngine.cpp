@@ -1,83 +1,76 @@
 #include "TileEngine.h"
 
-TileEngine::TileEngine()
+TileEngine::~TileEngine()
 {
 
 }
 
-TileEngine::~TileEngine()
+TileEngine::TileEngine()
 {
 
 }
 
 TileEngine::TileEngine(std::string pFileLocation)
 {
-    LoadFromFile(pFileLocation);
+    //load from file
 }
 
-TileEngine::TileEngine(unsigned int pTileWidth, unsigned int pTileHeight, unsigned int pMapSizeX, unsigned int pMapSizeY, sf::Texture pTileSet, std::vector<std::vector<int> >& pTileIDVec, std::vector<std::vector<bool> >& pSolidStateVec, float pPosX, float pPosY)
+TileEngine::TileEngine(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<int>>& tileID, std::vector<std::vector<bool>>& solidlayer)
 {
-    LoadFromParam(pTileWidth, pTileHeight, pMapSizeX, pMapSizeY, pTileSet, pTileIDVec, pSolidStateVec, pPosX, pPosY);
+	LoadFromParam(tileSize, mapSize, tileSet, tileID, solidlayer);
 }
 
-TileEngine::TileEngine(unsigned int pTileWidth, unsigned int pTileHeight, unsigned int pMapSizeX, unsigned int pMapSizeY, sf::Texture pTileSet, std::vector<std::vector<Tile> > pTiles, float pPosX, float pPosY)
+TileEngine::TileEngine(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<Tile>> tiles)
 {
-    LoadFromTiles(pTileWidth, pTileHeight, pMapSizeX, pMapSizeY, pTileSet, pTiles, pPosX, pPosY);
+	LoadFromTiles(tileSize, mapSize, tileSet, tiles);
 }
 
 void TileEngine::LoadFromFile(std::string pFileLocation)
 {
-    //Load from File
+	//Load from File
 }
 
-void TileEngine::LoadFromParam(unsigned int pTileWidth, unsigned int pTileHeight, unsigned int pMapSizeX, unsigned int pMapSizeY, sf::Texture pTileSet, std::vector<std::vector<int> >& pTileIDVec, std::vector<std::vector<bool> >& pSolidStateVec, float pPosX, float pPosY)
+void TileEngine::LoadFromParam(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<int> >& tileID, std::vector<std::vector<bool> >& solidLayer)
 {
-    mPosX = pPosX;
-    mPosY = pPosY;
-    mTileWidth = pTileWidth;
-    mTileHeight = pTileHeight;
-    mMapSizeX = pMapSizeX;
-    mMapSizeY = pMapSizeY;
-    mTileSet = pTileSet;
+	mTileSize = tileSize;
+	mMapSize = mapSize;
+	mTileSet = tileSet;
 
-    for (unsigned int i = 0; i < mMapSizeY; i++)
-    {
-        std::vector<Tile> Row;
+	for (unsigned int i = 0; i < mMapSize.y; i++)
+	{
+		std::vector<Tile> Row;
 
-        for (unsigned int j = 0; j < mMapSizeX; j++)
-        {
-            Tile TempTile;
+		for (unsigned int j = 0; j < mMapSize.x; j++)
+		{
+			Tile TempTile;
 
-            TempTile.mSolidState = pSolidStateVec[i][j];
-            TempTile.mTileSprite.setTexture(mTileSet);
-			TempTile.mTileSprite.setTextureRect(sf::IntRect((pTileIDVec[i][j] % static_cast<int>(mTileSet.getSize().x / mTileWidth)) * mTileWidth, static_cast<int>(pTileIDVec[i][j] / (mTileSet.getSize().x / mTileWidth)) * mTileHeight, static_cast<int>(mTileWidth), static_cast<int>(mTileHeight)));
+			TempTile.mSolidState = solidLayer[i][j];
+			TempTile.mTileSprite.setTexture(mTileSet);
+			TempTile.mTileSprite.setTextureRect(sf::IntRect((tileID[i][j] % static_cast<int>(mTileSet.getSize().x / mTileSize.x)) * mTileSize.x, static_cast<int>(tileID[i][j] / (mTileSet.getSize().x / mTileSize.x)) * mTileSize.y, static_cast<int>(mTileSize.x), static_cast<int>(mTileSize.y)));
 
-            Row.push_back(TempTile);
-        }
+			Row.push_back(TempTile);
+		}
 
-        mTileVec.push_back(Row);
-    }
+		mTileVec.push_back(Row);
+	}
 
-    UpdateTileSpritePos();
+	UpdateTileSpritePos();
 }
 
-void TileEngine::LoadFromTiles(unsigned int pTileWidth, unsigned int pTileHeight, unsigned int pMapSizeX, unsigned int pMapSizeY, sf::Texture pTileSet, std::vector<std::vector<Tile> >& pTiles, float pPosX, float pPosY)
+void TileEngine::LoadFromTiles(sf::Vector2f tileSize, sf::Vector2u mapSize, sf::Texture tileSet, std::vector<std::vector<Tile> > tiles)
 {
-    mPosX = pPosX;
-    mPosY = pPosY;
-    mTileWidth = pTileWidth;
-    mTileHeight = pTileHeight;
-    mMapSizeX = pMapSizeX;
-    mMapSizeY = pMapSizeY;
-    mTileVec = pTiles;
-    mTileSet = pTileSet;
+	mTileSize = tileSize;
+	mMapSize = mapSize;
+	mTileSet = tileSet;
+	mTileVec = tiles;
 }
+
 
 void TileEngine::Render(sf::RenderWindow* pTarget)
 {
-    for (unsigned int i = 0; i < mMapSizeY; i++)
+    for (unsigned int i = 0; i < mMapSize.y; i++)
     {
-        for (unsigned int j = 0; j < mMapSizeX; j++)
+        for (unsigned int j = 0; j < mMapSize.x; j++)
         {
             pTarget->draw(mTileVec[i][j].mTileSprite);
         }
@@ -86,25 +79,22 @@ void TileEngine::Render(sf::RenderWindow* pTarget)
 
 void TileEngine::UpdateTileSpritePos()
 {
-    for (unsigned int i = 0; i < mMapSizeY; i++)
+    for (unsigned int i = 0; i < mMapSize.y; i++)
     {
-        for (unsigned int j = 0; j < mMapSizeX; j++)
+        for (unsigned int j = 0; j < mMapSize.x; j++)
         {
-            mTileVec[i][j].mTileSprite.setPosition(mPosX + j * mTileWidth, mPosY + i * mTileHeight);
+            mTileVec[i][j].mTileSprite.setPosition(j * mTileSize.x, i * mTileSize.y);
         }
     }
 }
 
-bool TileEngine::CheckSolid(float px, float py) const
+bool TileEngine::CheckSolid(sf::Vector2f position) const
 {
-    float RelX = px - mPosX;
-    float RelY = py - mPosY;
-
-    if (RelX < 0 || RelY < 0 || RelX > mMapSizeX * mTileWidth ||  RelY > mMapSizeY * mTileHeight)  //If out of the world, colision = true
+    if (position.x < 0 || position.y < 0 || position.x > mMapSize.x * mTileSize.x || position.y > mMapSize.y * mTileSize.y)  //If out of the world, colision = true
         return true;
 
-    int TilesX = static_cast<int>(RelX / mTileWidth);
-    int TilesY = static_cast<int>(RelY / mTileHeight);
+    int TilesX = static_cast<int>(position.x / mTileSize.x);
+    int TilesY = static_cast<int>(position.y / mTileSize.y);
 
     if (mTileVec[TilesY][TilesX].mSolidState)  //guarenteed not to throw out of range exeption because of previous if statement exclusing out of bounds values
         return true;
@@ -112,21 +102,18 @@ bool TileEngine::CheckSolid(float px, float py) const
     return false;
 }
 
-bool TileEngine::CheckLineSolidColision(float ax, float ay, float bx, float by)
+bool TileEngine::CheckLineSolidColision(sf::Vector2f point1, sf::Vector2f point2)
 {
-    //This code is not very commented. Edit or attempt to understant at your own peril
-
     for (unsigned int i = 0; i < mTileVec.size(); i++)
     {
 		for (unsigned int j = 0; j < mTileVec[i].size(); j++)
         {
             if (mTileVec[i][j].mSolidState)
             {
-                std::vector<sf::Vector2f> TilePoints = FunctionLib::GenerateBoxFromDimentions(j * mTileWidth + mPosX, i * mTileHeight + mPosY, mTileWidth, mTileHeight);
+                std::vector<sf::Vector2f> TilePoints = FunctionLib::GenerateBoxFromDimentions(j * mTileSize.x, i * mTileSize.y, mTileSize.x, mTileSize.y);
 
-                float m = (by - ay) / (bx - ax);     //trying to find equasion of line in form y = mx + b. I have found m
-
-                float b = ay - m*ax;                 //re arange to form b = y - mx, and sub in values for x and y
+                float m = (point1.y - point2.y) / (point1.x - point2.x);    //trying to find equasion of line in form y = mx + b. I have found m
+                float b = point1.y - m*point1.x;							//re arange to form b = y - mx, and sub in values for x and y
 
                 std::vector<bool> PointIsAbove;
 
@@ -140,7 +127,7 @@ bool TileEngine::CheckLineSolidColision(float ax, float ay, float bx, float by)
 
                 if (!((PointIsAbove[0] && PointIsAbove[1] && PointIsAbove[2] && PointIsAbove[3]) || (!PointIsAbove[0] && !PointIsAbove[1] && !PointIsAbove[2] && !PointIsAbove[3])))
                 {
-                    if (!(((ax < TilePoints[0].x) && (bx < TilePoints[0].x)) || ((ax > TilePoints[3].x) && (bx > TilePoints[3].x))) && !(((ay < TilePoints[0].y) && (by < TilePoints[0].y)) || ((ay > TilePoints[3].y) && (by > TilePoints[3].y))))
+                    if (!(((point1.x < TilePoints[0].x) && (point2.x < TilePoints[0].x)) || ((point1.x > TilePoints[3].x) && (point2.x > TilePoints[3].x))) && !(((point1.y < TilePoints[0].y) && (point2.y < TilePoints[0].y)) || ((point1.y > TilePoints[3].y) && (point2.y > TilePoints[3].y))))
                     {
                         return true;
                     }
