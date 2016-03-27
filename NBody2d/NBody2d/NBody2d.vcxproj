@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8E1A3A09-E96C-4FAD-BC95-F3BF66E5C975}</ProjectGuid>
+    <ProjectGuid>{D9E1694D-0AEF-4D93-BAAF-67DFC8FCB247}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Heist20</RootNamespace>
+    <RootNamespace>NBody2d</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -89,13 +89,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Kieren\Documents\GitHubVisualStudio\SFML-2.3.2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Kieren\Documents\GitHubVisualStudio\SFML-2.3.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-main-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,15 +119,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Kieren\Documents\GitHubVisualStudio\SFML-2.3.2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Kieren\Documents\GitHubVisualStudio\SFML-2.3.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,35 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseCharacter.cpp" />
-    <ClCompile Include="FunctionLib.cpp" />
-    <ClCompile Include="LevelEntityManager.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerCharacter.cpp" />
-    <ClCompile Include="PlayerStats.cpp" />
-    <ClCompile Include="StaticEntity.cpp" />
-    <ClCompile Include="TileEngine.cpp" />
-    <ClCompile Include="WeaponStats.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BaseCharacter.h" />
-    <ClInclude Include="FunctionLib.h" />
-    <ClInclude Include="LevelEntityManager.h" />
-    <ClInclude Include="PlayerCharacter.h" />
-    <ClInclude Include="PlayerStats.h" />
-    <ClInclude Include="StaticEntity.h" />
-    <ClInclude Include="TileEngine.h" />
-    <ClInclude Include="WeaponStats.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Bullet2.png" />
-    <Image Include="DustTileSet.png" />
-    <Image Include="PlaceHolderPlayer.png" />
-    <Image Include="TileSet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

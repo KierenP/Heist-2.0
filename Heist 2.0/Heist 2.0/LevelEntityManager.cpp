@@ -7,7 +7,7 @@ LevelEntityManager::LevelEntityManager()
 
 }
 
-LevelEntityManager::LevelEntityManager(sf::RenderWindow* pTarget, TileEngine pTileEngine, std::vector<Character> pPlayers, std::vector<sf::Vector2f> spawnpoints) :
+LevelEntityManager::LevelEntityManager(sf::RenderWindow* pTarget, TileEngine pTileEngine, std::vector<BaseCharacter> pPlayers, std::vector<sf::Vector2f> spawnpoints) :
         mRenderTarget(pTarget),
         mTileEngine(pTileEngine),
         mPlayerVec(pPlayers),
@@ -55,7 +55,7 @@ void LevelEntityManager::Update(KeyState pKeyState)
     }
 }
 
-sf::Vector2f LevelEntityManager::GetPlayerNewPosition(Character& pPlayer, KeyState pKeyState)
+sf::Vector2f LevelEntityManager::GetPlayerNewPosition(BaseCharacter& pPlayer, KeyState pKeyState)
 {
     sf::Vector2f NewPlayerPos(pPlayer.GetPosition().x, pPlayer.GetPosition().y);
 
@@ -92,9 +92,9 @@ bool LevelEntityManager::CheckTileSolidColision(std::vector<sf::Vector2f> Corner
     return false;
 }
 
-sf::Vector2f LevelEntityManager::GenerateAiDirection(Character* pCharacter, KeyState val) //Based of a direction a Ai is going to be moving, what point it should face
+sf::Vector2f LevelEntityManager::GenerateAiDirection(BaseCharacter* pCharacter, KeyState val) //Based of a direction a Ai is going to be moving, what point it should face
 {
-	std::vector<Character*> CharactersInSight;                 
+	std::vector<BaseCharacter*> CharactersInSight;                 
 	std::vector<float> Distance;
 
 	for (unsigned int i = 0; i < mPlayerVec.size(); i++)
@@ -111,7 +111,7 @@ sf::Vector2f LevelEntityManager::GenerateAiDirection(Character* pCharacter, KeyS
 
 	if (CharactersInSight.size() != 0)
 	{
-		Character* ClosestCharacter = CharactersInSight[std::min_element(Distance.begin(), Distance.end()) - Distance.begin()];
+		BaseCharacter* ClosestCharacter = CharactersInSight[std::min_element(Distance.begin(), Distance.end()) - Distance.begin()];
 		return ClosestCharacter->GetPosition();
 	}
 	else    //No los, go in direction of movement
@@ -182,7 +182,7 @@ void LevelEntityManager::CheckNeibours(std::vector<Tile>& OpenList, std::vector<
 	}
 }
 
-KeyState LevelEntityManager::AiMoveDecide(Character* pCharacter)
+KeyState LevelEntityManager::AiMoveDecide(BaseCharacter* pCharacter)
 {
 	KeyState ClosestMoveDirection;
 
@@ -276,7 +276,7 @@ bool LevelEntityManager::CalculatePath(std::vector<std::vector<Tile> >& Tiles, u
 	return false;
 }
 
-bool LevelEntityManager::GenerateLMBState(Character* pCharacter)
+bool LevelEntityManager::GenerateLMBState(BaseCharacter* pCharacter)
 {
 	for (unsigned int i = 0; i < mPlayerVec.size(); i++)
 	{

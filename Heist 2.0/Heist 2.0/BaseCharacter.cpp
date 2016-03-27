@@ -1,16 +1,16 @@
-#include "Character.h"
+#include "BaseCharacter.h"
 
-Character::~Character()
+BaseCharacter::~BaseCharacter()
 {
 	
 }
 
-void Character::Render(sf::RenderWindow& pTarget)
+void BaseCharacter::Render(sf::RenderWindow& pTarget)
 {
     pTarget.draw(mSprite);
 }
 
-void Character::UpdateSprite()
+void BaseCharacter::UpdateSprite()
 {
 	mSprite.setTexture(mTexture);
     mSprite.setPosition(mPosition.x, mPosition.y);
@@ -18,7 +18,7 @@ void Character::UpdateSprite()
 	mSprite.setOrigin(mTexture.getSize().x / 2, mTexture.getSize().y / 2);
 }
 
-void Character::Update(float timeStep, KeyState val, bool willCollide)
+void BaseCharacter::Update(float timeStep, KeyState val, bool willCollide)
 {
 	if (!willCollide)   //LevelEntityManager will pass a true of false wether it is allowed to move
 		Move(val, timeStep);
@@ -31,7 +31,7 @@ void Character::Update(float timeStep, KeyState val, bool willCollide)
     }
 }
 
-void Character::Move(KeyState var, float TimeStep)
+void BaseCharacter::Move(KeyState var, float TimeStep)
 {
     if (var.UpPressed)
 		mPosition.y -= mSpeed * TimeStep;
